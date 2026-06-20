@@ -1,0 +1,75 @@
+<!-- library.html -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaFilm — Библиотека</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">LinguaFilm</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="library.html">Библиотека</a></li>
+                <li><a href="exercises.html" class="active">Упражнения</a></li>
+                <li><a href="profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section id="home" class="hero_library">    
+            <p>Данный раздел включает все фрагменты модулей с детальным разбором каждого.</p>
+        </section>
+        <section id="library" class="library">
+            <h1>Библиотека фрагментов</h1>
+
+            <!-- Фильтры -->
+            <div class="filter">
+                <label>Модуль:
+                    <select id="moduleFilter">
+                        <option value="all">Все модули</option>
+                        <option value="friends">Friends Forever</option>
+                        <option value="adventures">Wild Adventures</option>
+                        <option value="talk">Deep Talk</option>
+                        <option value="festival">Festival Fun</option>
+                    </select>
+                </label>
+            </div>
+
+            <!-- Контейнер для фрагментов -->
+            <div id="clipsContainer" class="clips"></div>
+        </section>
+    </main>
+
+    <!-- Модальное окно плеера для библиотеки -->
+    <div id="player" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" id="closePlayer">&times;</span>
+            <h2 id="lessonTitle"></h2>
+            <video controls width="100%" id="clipVideo">
+                Ваш браузер не поддерживает видео.
+            </video>
+            <div class="phrases-list">
+                <h4>Фразы для изучения:</h4>
+                <ul id="transriptList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 LinguaFilm. Все права защищены.</p>
+    </footer>
+
+
+    <script src="script_library.js"></script>
+</body>
+</html>

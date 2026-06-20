@@ -1,0 +1,606 @@
+
+/* Базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Шапка */
+.header {
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav a.active {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Основной контент */
+.main {
+    padding: 2rem;
+}
+.modules-grid{
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Герой‑секция */
+.hero {
+    text-align: center;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #452aab 0%, #f00071 100%);
+    color: white;
+    margin-bottom: 3rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+/* Герой‑секция library */
+.hero_library {
+    display: flex;                    
+    flex-direction: column;           
+    justify-content: center;         
+    align-items: center;             
+    padding: 0;                       
+    background: linear-gradient(135deg, #452aab 0%, #f00071 100%);
+    color: white;
+    margin-bottom: 3rem;
+    border-radius: 15px;
+}
+
+.hero_library h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero_library p {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;    
+}
+
+
+#startButton {
+    padding: 0.8rem 2rem;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Сетка модулей "змейкой" */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* Стили для квадратиков модулей */
+.module-tile {
+    aspect-ratio: 2 / 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba1 100%);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.module-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.tile-content {
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    z-index: 1;
+}
+
+.tile-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.tile-content p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Библиотека клипов */
+.library {
+    margin-top: 3rem;
+}
+
+.filter {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter label {
+    font-weight: 600;
+}
+
+.clips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.clip-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.clip-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.clip-card .info {
+    padding: 1rem;
+}
+
+.clip-card h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.clip-card p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Модальное окно и плеер */
+.modal, .player {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal.active, .player.active {
+    display: flex;
+}
+
+.modal-content, .player {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    z-index: 1000;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Блокировка прокрутки основного сайта */
+body.modal-open {
+    overflow: hidden; /* Блокируем прокрутку body */
+    height: 100vh; /* Фиксируем высоту body */
+}
+
+.player {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+}
+
+/* Кнопка закрытия */
+.close, #closePlayer {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    z-index: 2;
+}
+
+.close:hover, #closePlayer:hover {
+    color: #333;
+}
+
+#closePlayer {
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #bdc3c7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: static;
+    transform: none;
+    top: auto;
+    right: auto;
+}
+
+/* Заголовок урока в модальном окне */
+#lessonTitle {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* Видео в модальном окне и плеере */
+#clipVideo {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.video-container {
+    margin-bottom: 2rem;
+}
+
+/* Стили для списка фраз */
+.phrases-list, .transcript {
+    margin-top: 1.5rem;
+}
+
+.phrases-list h4, .transcript h3 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    text-align: center;
+}
+
+#transcriptList {
+    list-style-type: none;
+}
+
+#transcriptList li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: #f8f9fa;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+}
+
+#transcriptList .original, #transcriptList .translation {
+    display: block;
+}
+
+.original {
+    font-weight: 600;
+    color: #333;
+}
+
+.translation {
+    color: #666;
+    font-style: italic;
+}
+
+/* Стили для страницы профиля */
+.profile-wrapper {
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+    padding: 2rem;
+}
+
+.profile h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.profile-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: 0 auto;
+}
+
+.user-info h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.user-info p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Стили для уведомления о регистрации */
+.registration-notice {
+    background: #fff8e1;
+    border-left: 4px solid #ffc107;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.registration-notice h3 {
+    color: #f39c12;
+    margin-bottom: 0.5rem;
+}
+
+.registration-notice p {
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Стили для статистики */
+.progress-stats h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+
+/* доп стили для упр*/
+/* Стили для упражнений */
+.exercises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.exercise-tile {
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba1 100%);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.exercise-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.module-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-module {
+    padding: 0.8rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-module:hover {
+    background-color: #2980b9;
+}
+
+.options {
+    margin: 1rem 0;
+}
+
+/* Кнопка "Назад" в модальном окне */
+#backToModules {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    z-index: 10;
+    transition: color 0.2s;
+}
+
+#backToModules:hover {
+    color: #333;
+}
+
+/* Скрываем кнопку закрытия (крестик) при активном выборе упражнения, 
+   чтобы не было двух кнопок выхода */
+#closeExercise.hidden-close {
+    display: none;
+}
+
+
+
+
+
+
+/* Футер */
+.footer {
+    margin-top: 3rem;
+    grid-row: 3;
+    text-align: center;
+    padding: 2rem;
+    background-color: #2c3e50;
+    color: white;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 768px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .modal-content, .player {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .header, .filter {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .nav ul {
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+
+    .profile-wrapper {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .profile h1 {
+        font-size: 2rem;
+    }
+
+    .profile-content {
+        padding: 1.5rem;
+    }
+
+    .tile-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .tile-content p {
+        font-size: 0.9rem;
+    }
+
+    #lessonTitle {
+        font-size: 1.4rem;
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .header {
+        padding: 0.75rem 3%;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav ul {
+        gap: 1rem;
+    }
+
+    .tile-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .tile-content p {
+        font-size: 0.9rem;
+    }
+
+    #lessonTitle {
+        font-size: 1.4rem;
+    }
+}

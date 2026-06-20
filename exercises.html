@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaFilm — Упражнения</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">LinguaFilm</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="library.html">Библиотека</a></li>
+                <li><a href="exercises.html" class="active">Упражнения</a></li>
+                <li><a href="profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section id="home" class="hero">
+            <h1>Практикуйте язык с интерактивными упражнениями!</h1>
+            <p>Выберите тип упражнения и модуль для тренировки</p>
+        </section>
+
+        <section class="exercises-grid">
+            <div class="exercise-tile" data-type="translation">
+                <div class="tile-content">
+                    <h3>Выбор правильного перевода</h3>
+                    <p>Сопоставьте фразы с их переводом</p>
+                </div>
+            </div>
+
+            <div class="exercise-tile" data-type="fill">
+                <div class="tile-content">
+            <h3>Заполнение пропусков</h3>
+            <p>Вставьте пропущенные слова в предложения</p>
+                </div>
+            </div>
+
+            <div class="exercise-tile" data-type="comprehension">
+                <div class="tile-content">
+            <h3>Понимание текста</h3>
+            <p>Ответьте на вопросы по диалогу</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно упражнений -->
+<div id="exerciseModal" class="modal hidden">
+    <div class="modal-content">
+        <!-- Кнопка закрытия (крестик) -->
+        <span class="close" id="closeExercise">&times;</span>
+        
+        <!-- НОВАЯ КНОПКА: Возврат к выбору модулей -->
+        <button id="backToModules" class="hidden" title="Выбрать другой модуль">← Назад к модулям</button>
+
+        <h2 id="exerciseTitle"></h2>
+
+        <!-- Блок выбора модуля -->
+        <div id="moduleSelection" class="module-selection">
+            <h3>Выберите модуль:</h3>
+            <div id="moduleButtons" class="module-buttons"></div>
+        </div>
+
+        <!-- Контент упражнений -->
+        <div id="exerciseContent" class="exercise-content hidden">
+            <div id="currentExercise"></div>
+            <button id="nextExercise" class="btn btn-primary hidden">Следующее упражнение</button>
+            <button id="finishExercise" class="btn btn-success hidden">Завершить</button>
+        </div>
+    </div>
+</div>
+
+
+    <footer class="footer">
+        <p>&copy; 2026 LinguaFilm. Все права защищены.</p>
+    </footer>
+
+    <script src="script_exercises.js"></script>
+</body>
+</html>
