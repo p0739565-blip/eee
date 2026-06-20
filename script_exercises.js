@@ -1,10 +1,58 @@
 const exercisesData = {
     // Модуль 1: Friends Forever
     friends: {
-        translation: [
-            { original: "I only have a mother.", options: ["У меня есть мама и папа.", "У меня только мама.", "У меня только папа."], correct: 1, explanation: "Перевод фразы 'only have' — 'только есть'." },
-            { original: "My best friend lives next door.", options: ["Мой лучший друг живет в соседнем доме.", "Мой друг живет далеко.", "Я живу один."], correct: 0, explanation: "Next door — по соседству." }
-        ],
+          translation: [
+        {
+            original: "I only have a mother.",
+            explanation: "Фраза используется, когда человек говорит, что из родителей у него есть только мама. Слово only означает «только».",
+            structure: "I have a mother. → У меня есть мама.\nI only have a mother. → У меня только мама.",
+            examples: [
+                "I only have a mother. My father is not with us.",
+                "She only has a mother."
+            ],
+            translationOptions: [
+                "a) У меня есть мама и папа.",
+                "b) У меня только мама.",
+                "c) У меня только папа."
+            ],
+            correctTranslation: 1,
+            vocabularyOptions: [
+                "a) тоже",
+                "b) никогда",
+                "c) только"
+            ],
+            correctVocabulary: 2,
+            feedbackCorrect: "Правильно! 'Only' переводится как «только».",
+            feedbackIncorrect: "Неверно. Правильный ответ: 'b) У меня только мама.' и 'c) только'."
+        },
+        // Второе упражнение (новое)
+        {
+            original: "I've never seen my dad.",
+            explanation: "Фраза построена в Present Perfect.",
+            structure: "I have seen → Я видел(а).\nI have never seen → Я никогда не видел(а).",
+            contraction: "I have = I've",
+            examples: [
+                "I've never seen my dad.",
+                "I've never been to London.",
+                "I've never met her."
+            ],
+            note: "never = никогда.",
+            fillOptions: [
+                "a) never",
+                "b) always",
+                "c) very"
+            ],
+            correctFill: 0,
+            meaningOptions: [
+                "a) Я часто вижу папу.",
+                "b) Я никогда не видел папу.",
+                "c) Я увидел папу вчера."
+            ],
+            correctMeaning: 1,
+            feedbackCorrect: "Правильно! Предложение означает «Я никогда не видел(а) своего папу».",
+            feedbackIncorrect: "Неверно. Правильный ответ: 'a) never' и 'b) Я никогда не видел папу.'"
+        }
+    ],
         fill: [
             { sentence: "She is my best ___.", correct: "friend", explanation: "Friend — друг." }
         ],
@@ -89,10 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
     closeExerciseBtn.addEventListener('click', closeExercise);
     nextExerciseBtn.addEventListener('click', nextExercise);
     finishExerciseBtn.addEventListener('click', finishExercise);
+    closeExerciseBtn.addEventListener('click', closeExercise);
 
     // Закрытие по ESC
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeExercise();
+    });
+    // Закрытие по клику вне окна
+    window.addEventListener('click', function(event) {
+    if (event.target === exerciseModal) {
+        closeExercise();
+    }
     });
 });
 
@@ -183,51 +238,185 @@ function loadExercise() {
 
 // Отображение упражнения на перевод
 function renderTranslationExercise(exercise) {
-    let html = `
-        <p><strong>${exercise.original}</strong></p>
-        <div class="options">`;
+    const html = `
+        <div class="exercise-content">
+            <p><strong>${exercise.original || ''}</strong></p>
 
-    exercise.options.forEach((option, index) => {
-        html += `
-            <label class="option">
-                <input type="radio" name="translation" value="${index}">
-                ${option}
-            </label>`;
-    });
+            ${exercise.explanation ? `
+            <div class="explanation">
+                <h4>Употребление:</h4>
+                <p>${exercise.explanation}</p>
+            </div>` : ''}
 
-    html += `</div>
-        <button class="btn btn-primary" onclick="checkTranslation()">Проверить</button>
-        <div id="feedback" class="feedback hidden"></div>`;
+            ${exercise.structure ? `
+            <div class="structure">
+                <h4>Структура:</h4>
+                <pre>${exercise.structure}</pre>
+            </div>` : ''}
+
+            ${exercise.contraction ? `
+            <div class="contraction">
+                <h4>Сокращение:</h4>
+                <p>${exercise.contraction}</p>
+            </div>` : ''}
+
+            ${exercise.examples && exercise.examples.length > 0 ? `
+            <div class="examples">
+                <h4>Примеры:</h4>
+                <ul>
+                    ${exercise.examples.map(ex => `<li>${ex}</li>`).join('')}
+                </ul>
+            </div>` : ''}
+
+            ${exercise.note ? `
+            <div class="note">
+                <h4>Обратите внимание:</h4>
+                <p>${exercise.note}</p>
+            </div>` : ''}
+
+            ${exercise.translationOptions && exercise.translationOptions.length > 0 ? `
+            <div class="translation-exercise">
+                <h4>Выберите правильный перевод:</h4>
+                <p>${exercise.original}</p>
+                <div class="options">
+                    ${exercise.translationOptions.map((option, index) => `
+                        <label class="option">
+                            <input type="radio" name="translation" value="${index}">
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            ${exercise.fillOptions && exercise.fillOptions.length > 0 ? `
+            <div class="fill-exercise">
+                <h4>Закончите предложение:</h4>
+                <p>I've __ seen my dad.</p>
+                <div class="options">
+                    ${exercise.fillOptions.map((option, index) => `
+                        <label class="option">
+                            <input type="radio" name="fill" value="${index}">
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            ${exercise.vocabularyOptions && exercise.vocabularyOptions.length > 0 ? `
+            <div class="vocabulary-exercise">
+                <h4>What does "only" mean?</h4>
+                <div class="options">
+                    ${exercise.vocabularyOptions.map((option, index) => `
+                        <label class="option">
+                            <input type="radio" name="vocabulary" value="${index}">
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            ${exercise.meaningOptions && exercise.meaningOptions.length > 0 ? `
+            <div class="meaning-exercise">
+                <h4>What does the sentence mean?</h4>
+                <div class="options">
+                    ${exercise.meaningOptions.map((option, index) => `
+                        <label class="option">
+                            <input type="radio" name="meaning" value="${index}">
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            <button class="btn btn-primary" onclick="checkTranslation()">Проверить</button>
+            <div id="feedback" class="feedback hidden"></div>
+        </div>
+    `;
 
     currentExercise.innerHTML = html;
 }
 
+
 // Проверка ответа для перевода
 function checkTranslation() {
-    const selected = document.querySelector('input[name="translation"]:checked');
     const feedback = document.getElementById('feedback');
+    const exercise = exercisesData[currentModule][currentExerciseType][currentExerciseIndex];
+    let isCorrect = true;
+    let errorMessages = [];
 
-    if (!selected) {
-        feedback.textContent = 'Выберите вариант ответа!';
-        feedback.className = 'feedback error';
-        feedback.classList.remove('hidden');
-        return;
+    // Проверка 1: Перевод фразы (если есть)
+    if (exercise.translationOptions) {
+        const selected = document.querySelector('input[name="translation"]:checked');
+        if (!selected) {
+            errorMessages.push("Выберите вариант перевода.");
+            isCorrect = false;
+        } else {
+            if (parseInt(selected.value) !== exercise.correctTranslation) {
+                errorMessages.push("Неверный перевод фразы.");
+                isCorrect = false;
+            }
+        }
     }
 
-    const isCorrect = parseInt(selected.value) === exercisesData[currentModule][currentExerciseType][currentExerciseIndex].correct;
+    // Проверка 2: Заполнение пропуска (если есть)
+    if (exercise.fillOptions) {
+        const selected = document.querySelector('input[name="fill"]:checked');
+        if (!selected) {
+            errorMessages.push("Выберите слово для пропуска.");
+            isCorrect = false;
+        } else {
+            if (parseInt(selected.value) !== exercise.correctFill) {
+                errorMessages.push("Неверно заполнено предложение.");
+                isCorrect = false;
+            }
+        }
+    }
 
+    // Проверка 3: Значение слова (если есть)
+    if (exercise.vocabularyOptions) {
+        const selected = document.querySelector('input[name="vocabulary"]:checked');
+        if (!selected) {
+            errorMessages.push("Выберите значение слова.");
+            isCorrect = false;
+        } else {
+            if (parseInt(selected.value) !== exercise.correctVocabulary) {
+                errorMessages.push("Неверное значение слова.");
+                isCorrect = false;
+            }
+        }
+    }
+
+    // Проверка 4: Значение предложения (если есть)
+    if (exercise.meaningOptions) {
+        const selected = document.querySelector('input[name="meaning"]:checked');
+        if (!selected) {
+            errorMessages.push("Выберите значение предложения.");
+            isCorrect = false;
+        } else {
+            if (parseInt(selected.value) !== exercise.correctMeaning) {
+                errorMessages.push("Неверно понят смысл предложения.");
+                isCorrect = false;
+            }
+        }
+    }
+
+    // Вывод результата
     if (isCorrect) {
-        score++;
-        feedback.textContent = 'Правильно! ' + (exercisesData[currentModule][currentExerciseType][currentExerciseIndex].explanation || '');
+        score += 2; // Начисляем баллы, если все части верны
+        feedback.textContent = exercise.feedbackCorrect;
         feedback.className = 'feedback correct';
     } else {
-        feedback.textContent = 'Неверно. Попробуйте ещё раз!';
+        // Если есть ошибки, показываем общий текст ошибки из данных
+        feedback.textContent = exercise.feedbackIncorrect;
         feedback.className = 'feedback error';
     }
 
     feedback.classList.remove('hidden');
     nextExerciseBtn.classList.remove('hidden');
 }
+
+
+
 
 // Отображение упражнения на заполнение пропусков
 function renderFillExercise(exercise) {
@@ -332,22 +521,27 @@ function restartExercise() {
     score = 0;
     loadExercise();
 }
-// Закрытие модального окна (крестик)
 function closeExercise() {
     const modal = document.getElementById('exerciseModal');
+    if (!modal) return;
+
+    modal.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+
+    // Сброс внутренних элементов (если нужно)
     const closeBtn = document.getElementById('closeExercise');
     const backBtn = document.getElementById('backToModules');
-    
-    modal.classList.add('hidden');
-    
-    // Возвращаем интерфейс в исходное состояние на случай повторного открытия
-    closeBtn.classList.remove('hidden-close');
-    backBtn.classList.add('hidden');
-    
-    // Сбрасываем видимость блоков внутри модалки, чтобы при следующем открытии всё было чисто
-    document.getElementById('moduleSelection').classList.remove('hidden');
-    document.getElementById('exerciseContent').classList.add('hidden');
+    const moduleSelection = document.getElementById('moduleSelection');
+    const exerciseContent = document.getElementById('exerciseContent');
+
+    if (closeBtn) closeBtn.classList.remove('hidden-close');
+    if (backBtn) backBtn.classList.add('hidden');
+    if (moduleSelection) moduleSelection.classList.remove('hidden');
+    if (exerciseContent) exerciseContent.classList.add('hidden');
 }
+
+
+
 
 
 // Вспомогательные функции
@@ -359,3 +553,4 @@ function getExerciseTitle(type) {
     };
     return titles[type] || 'Упражнение';
 }
+

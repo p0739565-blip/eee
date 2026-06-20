@@ -220,17 +220,20 @@ body {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    display: flex; 
 }
+
 
 .hidden {
     display: none;
 }
 
-.modal.active, .player.active {
-    display: flex;
-}
 
-.modal-content, .player {
+/* .modal.active, .player.active {
+    display: flex;
+} */
+
+.modal-content {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -241,10 +244,43 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 2rem;
-    z-index: 1000;
+    z-index: 1001; /* УВЕЛИЧИТЬ на 1 относительно фона (.modal) */
     max-height: 90vh;
     overflow-y: auto;
+    opacity: 0; /* Начальное состояние — невидимо */
+    transform: translate(-50%, calc(-50% + 20px)); /* Слегка смещено вниз */
+    transition: all 0.3s ease; /* Плавная анимация */
 }
+
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Расстояние между кнопкой и заголовком */
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 20px; /* Отступ от остального контента */
+}
+
+.btn-back {
+    position: relative;
+    /* остальные стили кнопки */
+}
+
+
+/* Эффект появления: когда у modal НЕТ класса hidden, контент плавно появляется */
+.modal:not(.hidden) .modal-content {
+    opacity: 1;
+    transform: translate(-50%, -50%); /* Возвращается в центр */
+}
+
+.player {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+}
+
 
 /* Блокировка прокрутки основного сайта */
 body.modal-open {
@@ -287,6 +323,40 @@ body.modal-open {
     top: auto;
     right: auto;
 }
+
+
+.btn-back {
+    position: relative; /* Вместо absolute/fixed */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #6200ee;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10; /* Выше основного контента, но ниже крестика */
+    margin-bottom: 20px; /* Отступ снизу от кнопки */
+}
+
+.btn-back:hover {
+    background: #3700b3;
+}
+
+/* Скрываем кнопку по умолчанию */
+.btn-back.hidden {
+    display: none;
+}
+
+/* Отступ для заголовка после кнопки */
+.exercise-title {
+    margin-top: 0; /* Убираем стандартный отступ h2 */
+    padding-top: 10px; /* Небольшой отступ от кнопки */
+}
+
 
 /* Заголовок урока в модальном окне */
 #lessonTitle {
