@@ -56,7 +56,37 @@ const exercisesData = {
         fill: [
             { sentence: "She is my best ___.", correct: "friend", explanation: "Friend — друг." }
         ],
-        comprehension: []
+         comprehension: [
+        {
+            dialog: `A: That's my mom.
+                     B: Really? You look the same!
+                     A: Yes, we're like twins!
+                     B: What about your dad?
+                     A: I've never seen my dad. I only have a mother.`,
+            questions: [
+                   {
+                        question: 'Who is the woman in the dialog?',
+                        options: ['a) His teacher', 'b) His mom', 'c) His sister'],
+                        correct: 1
+                    },
+                    {
+                        question: 'Are they similar?',
+                        options: ['a) Yes', 'b) No'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Has he seen his dad?',
+                        options: ['a) Yes', 'b) No'],
+                        correct: 1
+                    },
+                    {
+                        question: 'Does he only have a mother?',
+                        options: ['a) Yes', 'b) No'],
+                        correct: 0
+                    }
+                    ]
+        }
+                    ]
     },
 
     // Модуль 2: Wild Adventures
@@ -222,19 +252,44 @@ document.getElementById('backToModules').addEventListener('click', () => {
 
 // Загрузка упражнения
 function loadExercise() {
-    const exercises = exercisesData[currentModule][currentExerciseType];
+    // Проверяем, что все глобальные переменные установлены
+    if (!currentModule || !currentExerciseType || currentExerciseIndex === undefined) {
+        console.error('Недостаточно данных для загрузки упражнения. Проверьте: currentModule, currentExerciseType, currentExerciseIndex');
+        return;
+    }
+
+    const exercises = exercisesData[currentModule]?.[currentExerciseType];
+
+    // Проверка существования массива упражнений
+    if (!exercises) {
+        console.error(`Не найдены упражнения для модуля "${currentModule}" типа "${currentExerciseType}"`);
+        return;
+    }
+
+    // Проверка корректности индекса
+    if (currentExerciseIndex < 0 || currentExerciseIndex >= exercises.length) {
+        console.error(`Индекс упражнения ${currentExerciseIndex} выходит за пределы массива (длина: ${exercises.length})`);
+        return;
+    }
+
     const exercise = exercises[currentExerciseIndex];
 
+    // Очищаем контейнер
     currentExercise.innerHTML = '';
 
+    // Загружаем упражнение в зависимости от типа
     if (currentExerciseType === 'translation') {
         renderTranslationExercise(exercise);
     } else if (currentExerciseType === 'fill') {
         renderFillExercise(exercise);
     } else if (currentExerciseType === 'comprehension') {
         renderComprehensionExercise(exercise);
+    } else {
+        // Защита от неизвестного типа упражнения
+        console.error(`Неизвестный тип упражнения: "${currentExerciseType}"`);
     }
 }
+
 
 // Отображение упражнения на перевод
 function renderTranslationExercise(exercise) {
@@ -449,33 +504,52 @@ function checkFill() {
 
 // Отображение упражнения на понимание текста
 function renderComprehensionExercise(exercise) {
-    let html = `<pre>${exercise.dialog}</pre>`;
+    if (!exercise || !exercise.dialog || !exercise.questions) {
+        console.error('Некорректные данные для упражнения на понимание.');
+        return;
+    }
+
+    let html = `
+        <div class="exercise-content">
+            <h4>Прочитайте диалог и ответьте на вопросы</h4>
+            <div class="dialog-box">
+                <pre>${exercise.dialog}</pre>
+            </div>`;
 
     exercise.questions.forEach((q, index) => {
         html += `
-            <p><strong>${q.question}</strong></p>
-            <div class="options">`;
+            <div class="comprehension-question">
+                <p><strong>${q.question}</strong></p>
+                <div class="options">`;
+
         q.options.forEach((option, optIndex) => {
             html += `
                 <label class="option">
                     <input type="radio" name="comprehension${index}" value="${optIndex}">
-            ${option}
-        </label>`;
+                    ${option}
+                </label>`;
         });
-        html += '</div>';
+
+        html += `
+                </div>
+            </div>`;
     });
 
-    html += `<button class="btn btn-primary" onclick="checkComprehension()">Проверить</button>
-        <div id="feedback" class="feedback hidden"></div>`;
+    html += `
+            <button class="btn btn-primary" onclick="checkComprehension()">Проверить</button>
+            <div id="feedback" class="feedback hidden"></div>
+        </div>`;
 
-    currentExercise.innerHTML = html;
+    currentExercise.innerHTML = html; // Используем currentExercise вместо container
 }
 
 // Проверка понимания текста
 function checkComprehension() {
-    const questions = exercisesData[currentModule][currentExerciseType][currentExerciseIndex].questions;
+    const exercise = exercisesData[currentModule][currentExerciseType][currentExerciseIndex];
+    const questions = exercise.questions;
     const feedback = document.getElementById('feedback');
     let correctCount = 0;
+    let totalQuestions = questions.length;
 
     questions.forEach((q, index) => {
         const selected = document.querySelector(`input[name="comprehension${index}"]:checked`);
@@ -484,12 +558,21 @@ function checkComprehension() {
         }
     });
 
+    // Начисляем баллы за каждый правильный ответ
     score += correctCount;
-    feedback.textContent = `Правильно ${correctCount} из ${questions.length} вопросов!`;
-    feedback.className = 'feedback correct';
+
+    if (correctCount === totalQuestions) {
+        feedback.textContent = `Отлично! Вы правильно ответили на все ${totalQuestions} вопросов!`;
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.textContent = `Правильно ${correctCount} из ${totalQuestions} вопросов. Попробуйте ещё раз!`;
+        feedback.className = 'feedback error';
+    }
+
     feedback.classList.remove('hidden');
     nextExerciseBtn.classList.remove('hidden');
 }
+
 
 // Следующее упражнение
 function nextExercise() {

@@ -267,6 +267,38 @@ body {
 }
 
 
+
+.dialog-box {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.comprehension-question {
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.option {
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+
 /* Эффект появления: когда у modal НЕТ класса hidden, контент плавно появляется */
 .modal:not(.hidden) .modal-content {
     opacity: 1;
